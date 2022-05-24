@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "angularfire-cc956": {
+      "hosting": {
+        "firestarter-demo": [
+          "angularfire-cc956"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "angularfire-cc956"
+  }
+}

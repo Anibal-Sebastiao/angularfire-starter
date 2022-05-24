@@ -1,0 +1,73 @@
+<mat-card>
+  <div>
+    <h3>Create Account</h3>
+
+    <!-- <button mat-stroked-button>
+      Returning user?
+    </button> -->
+  </div>
+
+  <!-- <div>
+    <h3>Sign In</h3>
+    <button size="small" mat-stroked-button>
+      New user?
+    </button>
+  </div> -->
+
+  <!-- <div>
+    <h3>Reset Password</h3>
+    <button size="small" mat-button>Back</button>
+  </div> -->
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field >
+      <input
+        matInput
+        formControlName="email"
+        type="email"
+        placeholder="Email"
+        autocomplete="off"
+      />
+
+    </mat-form-field>
+
+    <mat-form-field >
+      <input
+        matInput
+        formControlName="password"
+        type="password"
+        placeholder="Password"
+        autocomplete="off"
+      />
+
+    </mat-form-field>
+
+    <mat-form-field
+    >
+      <input
+        matInput
+        formControlName="passwordConfirm"
+        type="password"
+        placeholder="Confirm password"
+        autocomplete="off"
+      />
+
+
+    </mat-form-field>
+
+    <button
+
+      mat-raised-button
+      color="accent"
+      type="submit"
+    >
+      Submit
+    </button>
+  </form>
+
+  <button
+    mat-button
+  >
+    Forgot password?
+  </button>
+</mat-card>
