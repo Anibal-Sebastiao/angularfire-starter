@@ -1,26 +1,26 @@
 <mat-card>
-  <div>
+  <div *ngIf="formType(typesEnums.signUp)">
     <h3>Create Account</h3>
 
-    <!-- <button mat-stroked-button>
+    <button mat-stroked-button (click)="changeType(typesEnums.logIn)">
       Returning user?
-    </button> -->
+    </button>
   </div>
 
-  <!-- <div>
+  <div *ngIf="formType(typesEnums.logIn)">
     <h3>Sign In</h3>
-    <button size="small" mat-stroked-button>
+    <button size="small" mat-stroked-button (click)="changeType(typesEnums.signUp)">
       New user?
     </button>
-  </div> -->
+  </div>
 
-  <!-- <div>
+  <div *ngIf="formType(typesEnums.reset)">
     <h3>Reset Password</h3>
-    <button size="small" mat-button>Back</button>
-  </div> -->
+    <button size="small" mat-button (click)="changeType(typesEnums.logIn)">Back</button>
+  </div>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <mat-form-field >
+    <mat-form-field [color]="email?.valid && 'accent'">
       <input
         matInput
         formControlName="email"
@@ -29,9 +29,12 @@
         autocomplete="off"
       />
 
+      <mat-error *ngIf="email?.invalid && email?.dirty">
+        You must enter a valid email address
+      </mat-error>
     </mat-form-field>
 
-    <mat-form-field >
+    <mat-form-field [color]="email?.valid && 'accent'" *ngIf="!formType(typesEnums.reset)">
       <input
         matInput
         formControlName="password"
@@ -40,9 +43,14 @@
         autocomplete="off"
       />
 
+      <mat-error *ngIf="password?.invalid && password?.dirty">
+        Password must be at least 6 characters long
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field
+      [color]="passwordDoesMatch ? 'accent' : 'warn'"
+      *ngIf="formType(typesEnums.signUp)"
     >
       <input
         matInput
@@ -52,14 +60,28 @@
         autocomplete="off"
       />
 
-
+      <mat-error *ngIf="passwordConfirm?.dirty && !passwordDoesMatch">
+        Password does not match
+      </mat-error>
     </mat-form-field>
 
-    <button
+    <mat-error class="server-error">{{ serverMessage }}</mat-error>
 
+    <button
+      *ngIf="formType(typesEnums.reset)"
+      mat-stroked-button
+      type="submit"
+      [disabled]="loading || email?.invalid"
+    >
+      Send Reset Email
+    </button>
+
+    <button
+      *ngIf="!formType(typesEnums.reset)"
       mat-raised-button
       color="accent"
       type="submit"
+      [disabled]="form.invalid || !passwordDoesMatch || loading"
     >
       Submit
     </button>
@@ -67,6 +89,8 @@
 
   <button
     mat-button
+    *ngIf="formType(typesEnums.logIn) && !formType(typesEnums.reset)"
+    (click)="changeType(typesEnums.reset)"
   >
     Forgot password?
   </button>
